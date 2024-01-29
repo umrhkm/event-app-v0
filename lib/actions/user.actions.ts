@@ -43,7 +43,7 @@ export const updateUser = async (clerkId: string, user: UpdateUserParams) => {
     });
 
     if (!updateUser) throw new Error("User update failed");
-    return JSON.parse(JSON.stringify(updateUser));
+    return JSON.parse(JSON.stringify(updatedUser));
   } catch (error) {
     handleError(error);
   }
