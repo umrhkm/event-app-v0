@@ -56,7 +56,7 @@ const EventDetails = async ({
             </div>
 
             {/* TODO: CHECKOUT BUTTON */}
-            <CheckoutButton event={event!}/>
+            <CheckoutButton event={event!} />
 
             <div className="flex flex-col gap-5">
               <div className="flex gap-2 md:gap-3">
@@ -112,8 +112,8 @@ const EventDetails = async ({
           emptyStateSubtext="Come back later"
           collectionType="All_Events"
           limit={6}
-          page={1}
-          totalPages={2}
+          page={searchParams.page as string}
+          totalPages={relatedEvents?.totalPages}
         />
       </section>
     </>
