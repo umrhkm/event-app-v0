@@ -7,13 +7,13 @@ import {
 import { formatDateTime } from "@/lib/utils";
 import { SearchParamProps } from "@/types";
 import Image from "next/image";
-import React from "react";
 
 const EventDetails = async ({
   params: { id },
   searchParams,
 }: SearchParamProps) => {
   const event = await getEventById(id);
+
   const relatedEvents = await getRelatedEventsByCategory({
     categoryId: event!.category._id,
     eventId: event!._id,
@@ -34,28 +34,27 @@ const EventDetails = async ({
 
           <div className="flex w-full flex-col gap-8 p-5 md:p-10">
             <div className="flex flex-col gap-6">
-              <h2 className="h2-bold">{event?.title}</h2>
+              <h2 className="h2-bold">{event!.title}</h2>
 
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <div className="flex gap-3">
                   <p className="p-bold-20 rounded-full bg-green-500/10 px-5 py-2 text-green-700">
-                    {event?.isFree ? "FREE" : `${event!.price}`}
+                    {event!.isFree ? "FREE" : `$${event!.price}`}
                   </p>
-                  <p className="p-medium-16 rounded-full px-4 py-2.5 text-gray-500 bg-gray-500/10">
-                    {event?.category.name}
+                  <p className="p-medium-16 rounded-full bg-grey-500/10 px-4 py-2.5 text-grey-500">
+                    {event!.category.name}
                   </p>
                 </div>
 
-                <p className="p-medum-18 ml-2 mt-2 sm:mt-0">
+                <p className="p-medium-18 ml-2 mt-2 sm:mt-0">
                   by{" "}
                   <span className="text-primary-500">
-                    {event?.organizer.firstName} {event?.organizer.lastName}
+                    {event!.organizer.firstName} {event!.organizer.lastName}
                   </span>
                 </p>
               </div>
             </div>
 
-            {/* TODO: CHECKOUT BUTTON */}
             <CheckoutButton event={event!} />
 
             <div className="flex flex-col gap-5">
@@ -65,9 +64,8 @@ const EventDetails = async ({
                   alt="calendar"
                   width={32}
                   height={32}
-                  className=""
                 />
-                <div className="flex items-center p-medium-16 flex-wrap lg:p-regular-20">
+                <div className="p-medium-16 lg:p-regular-20 flex flex-wrap items-center">
                   <p>
                     {formatDateTime(event!.startDateTime).dateOnly} -{" "}
                     {formatDateTime(event!.startDateTime).timeOnly}
@@ -86,32 +84,33 @@ const EventDetails = async ({
                   width={32}
                   height={32}
                 />
-                <p className="p-medium-16 lg:p-regular-20">{event?.location}</p>
+                <p className="p-medium-16 lg:p-regular-20">{event!.location}</p>
               </div>
             </div>
 
             <div className="flex flex-col gap-2">
               <p className="p-bold-20 text-grey-600">{`What You'll Learn:`}</p>
               <p className="p-medium-16 lg:p-regular-18">
-                {event?.description}
+                {event!.description}
               </p>
               <p className="p-medium-16 lg:p-regular-18 truncate text-primary-500 underline">
-                {event?.url}
+                {event!.url}
               </p>
             </div>
           </div>
         </div>
       </section>
 
+      {/* EVENTS with the same category */}
       <section className="wrapper my-8 flex flex-col gap-8 md:gap-12">
         <h2 className="h2-bold">Related Events</h2>
 
         <Collection
           data={relatedEvents?.data}
-          emptyTitle="No events Found"
+          emptyTitle="No Events Found"
           emptyStateSubtext="Come back later"
           collectionType="All_Events"
-          limit={6}
+          limit={3}
           page={searchParams.page as string}
           totalPages={relatedEvents?.totalPages}
         />

@@ -15,7 +15,7 @@ const Checkout = ({ event, userId }: { event: IEvent; userId: string }) => {
 
     if (query.get("canceled")) {
       console.log(
-        "Order canceled -- continue to shop around and checkout when you’re ready."
+        "Order canceled -- continue to shop around and checkout when you're ready."
       );
     }
   }, []);
@@ -35,7 +35,6 @@ const Checkout = ({ event, userId }: { event: IEvent; userId: string }) => {
   return (
     <form action={onCheckout} method="post">
       <Button type="submit" role="link" size="lg" className="button sm:w-fit">
-        {" "}
         {event.isFree ? "Get Ticket" : "Buy Ticket"}
       </Button>
     </form>
